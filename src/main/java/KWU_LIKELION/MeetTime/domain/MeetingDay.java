@@ -26,7 +26,7 @@ public class MeetingDay {
     @Column
     private MeetingWeek meetingWeek;
 
-    @ManyToOne
-    @Column(nullable = false)
-    private Long meeting_id;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="meeting_id")
+    private Meeting meeting;
 }

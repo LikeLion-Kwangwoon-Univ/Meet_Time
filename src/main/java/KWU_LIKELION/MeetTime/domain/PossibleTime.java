@@ -21,13 +21,15 @@ public class PossibleTime {
     @Column(name="possibleTime_id")
     private Long id;
 
-    @OneToMany
+    //??ManyToOne??
+    @ManyToOne(fetch=FetchType.LAZY)
     @Column(nullable = false)
     private Long user_id;
 
     @ManyToOne
-    @Column(nullable = false)
-    private Long meetingDay_id;
+    @JoinColumn(name="meetingDay_id")
+    private MeetingDay meetingDay;
+
 
     @Column(nullable = false)
     private LocalTime possibleTime;
