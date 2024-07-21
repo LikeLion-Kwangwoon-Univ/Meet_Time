@@ -10,6 +10,7 @@ import java.time.LocalDate;
 public class MeetingDay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "meeting_day_id")
     private Long id;
 
     private LocalDate meetingday;
@@ -17,7 +18,7 @@ public class MeetingDay {
     @Enumerated(EnumType.STRING)
     private MeetingWeek meetingWeek;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_id")
     private Meeting meeting;
 }

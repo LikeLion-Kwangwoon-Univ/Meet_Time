@@ -10,6 +10,7 @@ import java.time.LocalTime;
 public class Meeting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "meeting_id")
     private Long id;
 
     private String meetingTitle;
