@@ -1,10 +1,7 @@
 package KWU_LIKELION.MeetTime.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -13,6 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "MeetingDay")
+@Builder
 public class MeetingDay {
 
     @Id
@@ -21,10 +19,10 @@ public class MeetingDay {
     private Long id;
 
     @Column
-    private LocalDate meetingDay;
+    private LocalDate day;
 
     @Column
-    private MeetingWeek meetingWeek;
+    private MeetingWeek week;
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="meeting_id")

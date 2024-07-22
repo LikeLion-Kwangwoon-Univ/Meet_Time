@@ -1,16 +1,14 @@
 package KWU_LIKELION.MeetTime.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="users")
+@Builder
 public class Users {
 
     @Id
@@ -19,9 +17,13 @@ public class Users {
     private Long id;
 
     @Column(length = 50,nullable = false)
-    private String nickName;
+    private String userName;
 
     @Column(nullable = false)
     private String password;
 
+    //meetingId 추가
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="meeting_id")
+    private Meeting meeting;
 }
