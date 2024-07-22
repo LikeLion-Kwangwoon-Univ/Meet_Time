@@ -9,6 +9,9 @@ import org.springframework.data.util.Pair;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Builder
 public class MeetingRequest {
@@ -17,15 +20,15 @@ public class MeetingRequest {
 
     private MeetingType meetingType;
 
-    private LocalDate day;
+    private List<LocalDate> day;
 
-    private MeetingWeek week;
+    private List<MeetingWeek> week;
 
     private LocalTime meetingStartTime;
 
     private LocalTime meetingEndTime;
 
-    public Pair<Meeting,MeetingDay> toEntity()
+    public Pair<Meeting,List<MeetingDay>> toEntity()
     {
         Meeting meeting=Meeting.builder()
                 .meetingTitle(this.meetingTitle)
@@ -33,20 +36,26 @@ public class MeetingRequest {
                 .meetingStartTime(this.meetingStartTime)
                 .meetingEndTime(this.meetingEndTime)
                 .build();
-        MeetingDay meetingDay;
         if(this.meetingType==MeetingType.WEEK){
-         meetingDay=MeetingDay.builder()
-                 .week(this.week)
-                 .meeting(meeting)
-                 .build();
+            List<MeetingDay> meetingDay=this.week
+                    .stream()
+                    .map(m->MeetingDay.builder()
+                            .week(m)
+                            .meeting(meeting)
+                            .build())
+                    .collect(Collectors.toList());
+            return Pair.of(meeting,meetingDay);
         }
         else{
-            meetingDay=MeetingDay.builder()
-                    .day(this.day)
-                    .meeting(meeting)
-                    .build();
+            List<MeetingDay> meetingDay=this.day
+                    .stream()
+                    .map(m->MeetingDay.builder()
+                            .day(m)
+                            .meeting(meeting)
+                            .build())
+                    .collect(Collectors.toList());
+            return Pair.of(meeting,meetingDay);
         }
 
-        return Pair.of(meeting,meetingDay);
     }
 }

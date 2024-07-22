@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MeetingService {
@@ -24,13 +26,14 @@ public class MeetingService {
     //meeting 생성
     public Meeting createMeeting(MeetingRequest req)
     {
-        Pair<Meeting,MeetingDay> saveEntity=req.toEntity();//meetingEntity 생성
+        Pair<Meeting, List<MeetingDay>> saveEntity=req.toEntity();//meetingEntity 생성
         Meeting saveMeeting=saveEntity.getFirst();
-        MeetingDay saveMeetingDay=saveEntity.getSecond();
+        List<MeetingDay> saveMeetingDay=saveEntity.getSecond();
 
         //Entity 저장
         meetingRepository.save(saveMeeting);
-        meetingDayRepository.save(saveMeetingDay);
+        meetingDayRepository.saveAll(saveMeetingDay);
+
         return saveMeeting;
     }
     //setPossibleDay(meetingDay,meetingWeek)
