@@ -1,10 +1,7 @@
 package KWU_LIKELION.MeetTime.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.swing.text.StyleContext;
 import java.time.LocalTime;
@@ -14,6 +11,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "possibleTime")
+@Builder
 public class PossibleTime {
 
     @Id
@@ -21,10 +19,10 @@ public class PossibleTime {
     @Column(name="possibleTime_id")
     private Long id;
 
-    //??ManyToOne??
-    @ManyToOne(fetch=FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @Column(nullable = false)
-    private Long user_id;
+    private Users users;
 
     @ManyToOne
     @JoinColumn(name="meetingDay_id")

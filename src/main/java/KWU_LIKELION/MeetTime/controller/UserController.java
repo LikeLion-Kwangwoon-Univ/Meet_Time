@@ -20,5 +20,6 @@ public class UserController {
         }else{//중복된 아이디 혹은 password 일치하지 않음
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
+        //meeting관련 데이터 전달필요 -> 수정해야함
     }
 }

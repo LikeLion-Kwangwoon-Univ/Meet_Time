@@ -2,6 +2,7 @@ package KWU_LIKELION.MeetTime.controller;
 
 import KWU_LIKELION.MeetTime.domain.Meeting;
 import KWU_LIKELION.MeetTime.dto.MeetingRequest;
+import KWU_LIKELION.MeetTime.dto.PossibleTimeRequest;
 import KWU_LIKELION.MeetTime.service.MeetingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,14 @@ public class MeetingController {
     }
 
     //selectTime(possibleTime)
+    @PostMapping(value = "/selectTime")
+    public ResponseEntity<String> selectTime(@RequestBody PossibleTimeRequest req){
+        if(meetingService.setPossibleTime(req)!=null) {
+            return ResponseEntity.ok("성공");
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 
 
     //showMeeting
