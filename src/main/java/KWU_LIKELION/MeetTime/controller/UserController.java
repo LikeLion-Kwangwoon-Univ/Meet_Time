@@ -17,7 +17,7 @@ public class UserController {
     private final MeetingService meetingService;
 
     //meetingId와 함께 userName,password 전달
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/{boardId}/login")
     public ResponseEntity<MeetingByUserResponse> login(@RequestBody UsersRequest req){
         Users user=userService.login(req);
 

@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.util.Pair;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,15 +24,15 @@ public class MeetingByUserResponse {
 
     private Meeting meeting;
 
-    private List<Pair<MeetingDay,List<PossibleTime>>> possibleTimeList; //이게 맞아?
+    private List<Pair<MeetingDay,List<LocalTime>>> possibleTimeList; //이게 맞아?
 
 
     public static MeetingByUserResponse of(Users user){
         Meeting meetingByUser=user.getMeeting();
         List<MeetingDay> meetingDayList=meetingDayRepository.findAllByMeeting(meetingByUser);
-        List<Pair<MeetingDay,List<PossibleTime>>> possibleTimeList= meetingDayList.stream()
+        List<Pair<MeetingDay,List<LocalTime>>> possibleTimeList= meetingDayList.stream()
                 .map(m->
-                        Pair.of(m,possibleTimeRepository.findAllByMeetingDay(m))
+                        Pair.of(m,possibleTimeRepository.findAllPossibleTimeByMeetingDay(m))
                 )
                 .collect(Collectors.toList());
 

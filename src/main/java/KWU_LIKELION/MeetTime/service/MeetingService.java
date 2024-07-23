@@ -1,7 +1,7 @@
 package KWU_LIKELION.MeetTime.service;
 
 import KWU_LIKELION.MeetTime.domain.*;
-import KWU_LIKELION.MeetTime.dto.MeetingRequest;
+import KWU_LIKELION.MeetTime.dto.CreateMeetingRequest;
 import KWU_LIKELION.MeetTime.dto.MeetingByUserResponse;
 import KWU_LIKELION.MeetTime.dto.PossibleTimeRequest;
 import KWU_LIKELION.MeetTime.repository.MeetingDayRepository;
@@ -28,7 +28,7 @@ public class MeetingService {
 
 
     //meeting 생성
-    public Meeting createMeeting(MeetingRequest req)
+    public Meeting createMeeting(CreateMeetingRequest req)
     {
         Pair<Meeting, List<MeetingDay>> saveEntity=req.toEntity();//meetingEntity 생성
         Meeting saveMeeting=saveEntity.getFirst();
@@ -48,6 +48,8 @@ public class MeetingService {
         possibleTimeRepository.saveAll(possibleTimeList);
         return possibleTimeList;
     }
+
+    //deletePossibleTime
 
     public Pair<LocalTime,LocalTime> getMeetingTimeRange(Long meetingId){
         Meeting meetingEntity=meetingRepository.findById(meetingId).get();

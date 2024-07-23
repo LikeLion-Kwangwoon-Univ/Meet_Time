@@ -11,12 +11,11 @@ import org.springframework.data.util.Pair;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Data
 @Builder
-public class MeetingRequest {
+public class CreateMeetingRequest {
 
     private String meetingTitle;
 
