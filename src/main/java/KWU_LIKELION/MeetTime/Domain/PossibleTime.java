@@ -20,5 +20,12 @@ public class PossibleTime {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private PossibleTime possibleTime;
+    private Users user;
+
+    public static PossibleTime newPossibleTime(LocalTime time){
+        PossibleTime possibleTime = new PossibleTime();
+        possibleTime.setPossible(time);
+
+        return possibleTime;
+    }
 }

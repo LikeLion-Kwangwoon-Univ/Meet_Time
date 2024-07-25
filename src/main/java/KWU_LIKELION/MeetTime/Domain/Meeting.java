@@ -1,9 +1,11 @@
 package KWU_LIKELION.MeetTime.Domain;
 
+import KWU_LIKELION.MeetTime.Domain.Enum.mType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -21,4 +23,29 @@ public class Meeting {
     private LocalTime meetingStartTime;
 
     private LocalTime meetingEndTime;
+
+    private LocalDateTime meetingCreateTime;
+
+    // 생성 메서드
+    public static Meeting newDayMeeting(String name, LocalTime start, LocalTime end){
+        Meeting meeting = new Meeting();
+        meeting.setMeetingTitle(name);
+        meeting.setMeetingType(mType.DAY);
+        meeting.setMeetingStartTime(start);
+        meeting.setMeetingEndTime(end);
+        meeting.setMeetingCreateTime(LocalDateTime.now());
+
+        return meeting;
+    }
+
+    public static Meeting newWeekMeeting(String name, LocalTime start, LocalTime end){
+        Meeting meeting = new Meeting();
+        meeting.setMeetingTitle(name);
+        meeting.setMeetingType(mType.WEEk);
+        meeting.setMeetingStartTime(start);
+        meeting.setMeetingEndTime(end);
+        meeting.setMeetingCreateTime(LocalDateTime.now());
+
+        return meeting;
+    }
 }
