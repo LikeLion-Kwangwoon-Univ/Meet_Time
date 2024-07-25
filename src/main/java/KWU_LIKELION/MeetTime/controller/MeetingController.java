@@ -2,6 +2,7 @@ package KWU_LIKELION.MeetTime.controller;
 
 import KWU_LIKELION.MeetTime.domain.Meeting;
 import KWU_LIKELION.MeetTime.dto.CreateMeetingRequest;
+import KWU_LIKELION.MeetTime.dto.MeetingResponse;
 import KWU_LIKELION.MeetTime.dto.PossibleTimeRequest;
 import KWU_LIKELION.MeetTime.service.MeetingService;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,7 @@ public class MeetingController {
         }
     }
 
-    //selectTime(possibleTime)
-    @PostMapping(value = "/selectTime")
+    @PostMapping(value = "/selectTime")//가능한 시간 선택
     public ResponseEntity<String> selectTime(@RequestBody PossibleTimeRequest req){
         if(meetingService.setPossibleTime(req)!=null) {
             return ResponseEntity.ok("성공");
@@ -40,9 +40,14 @@ public class MeetingController {
     }
 
 
-    @GetMapping(value = "/{meetingId}")
-    public ResponseEntity<String> showMeeting(@PathVariable Long meetingId){
-
+    @GetMapping(value = "/{meetingId}")//결과 보여주는 화면(아직 미완성)
+    public ResponseEntity<MeetingResponse> showMeeting(@PathVariable Long meetingId){
+        MeetingResponse meetingResponse=meetingService.showMeeting(meetingId);
+        if(meetingResponse!=null){
+            return ResponseEntity.ok(meetingResponse);
+        }else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     //showPossiblePerson(to showMeeting)

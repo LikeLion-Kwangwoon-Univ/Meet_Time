@@ -7,6 +7,7 @@ import KWU_LIKELION.MeetTime.dto.PossibleTimeRequest;
 import KWU_LIKELION.MeetTime.repository.MeetingDayRepository;
 import KWU_LIKELION.MeetTime.repository.MeetingRepository;
 import KWU_LIKELION.MeetTime.repository.PossibleTimeRepository;
+import KWU_LIKELION.MeetTime.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,8 @@ public class MeetingService {
     private final MeetingRepository meetingRepository;
     private final MeetingDayRepository meetingDayRepository;
     private final PossibleTimeRepository possibleTimeRepository;
+    private final UsersRepository usersRepository;
 
-    //getMeetingId
-
-    //getMeeting
 
 
     //meeting 생성
@@ -41,27 +40,51 @@ public class MeetingService {
         return saveMeeting;
     }
 
+    //possibleTime 생성 및 삭제
     public List<PossibleTime> setPossibleTime(PossibleTimeRequest req)
     {
-        List<PossibleTime> possibleTimeList=req.toEntity();
+        //update라면 기본에 있던 possibleTime 삭제 후 새로 생성
+        if(deletePossibleTime(req.getUserId())){
 
-        possibleTimeRepository.saveAll(possibleTimeList);
-        return possibleTimeList;
+            List<PossibleTime> possibleTimeList=req.toEntity();
+
+            possibleTimeRepository.saveAll(possibleTimeList);
+            return possibleTimeList;
+        }else{
+            return null;
+        }
     }
 
-    //deletePossibleTime
+    //기존 possbileTime 삭제
+    public Boolean deletePossibleTime(Long userId)
+    {
+        Users user=usersRepository.findById(userId).orElse(null);
+        try{
+            List<PossibleTime> deletePossibleTimeList=possibleTimeRepository.findALlByUsers(user);
+            if(deletePossibleTimeList==null){//possibleTime update가 아닌 새로 생성이라면 true 반환
+                return true;
+            }
+            //기존에 있던 정보 삭제
+            deletePossibleTimeList.forEach(possibleTime -> possibleTimeRepository.delete(possibleTime));
+            return true;
+        }catch (Exception e){
+            return false;
+        }
 
-    public Pair<LocalTime,LocalTime> getMeetingTimeRange(Long meetingId){
-        Meeting meetingEntity=meetingRepository.findById(meetingId).get();
-        LocalTime startTime=meetingEntity.getMeetingStartTime();
-        LocalTime endTime=meetingEntity.getMeetingEndTime();
-
-        return Pair.of(startTime,endTime);
     }
 
+
+    //로그인 이후의 화면 meeting 관련 데이터 전달
     public MeetingByUserResponse getMeetingByUser(Users user){
        return MeetingByUserResponse.of(user);
     }
+
+    //결과 관련 데이터 전달
+//    public MeetingResponse showMeeting(Long meetingId){
+//        return MeetingResponse.of(meetingId);
+//    }
+
+    //가능한 사람 데이터를 전달하는 함수 필요
 
 
 

@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Builder
 @Data
-public class UsersRequest {
+public class UsersRequest {//로그인 request
     private final MeetingRepository meetingRepository;
 
     private String userName;

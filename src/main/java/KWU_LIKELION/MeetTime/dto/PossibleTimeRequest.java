@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class PossibleTimeRequest {
+public class PossibleTimeRequest {//가능한 시간 선택 request
 
     private final UsersRepository usersRepository;
     private final MeetingDayRepository meetingDayRepository;
@@ -22,8 +22,8 @@ public class PossibleTimeRequest {
 
     private Long userId;
 
+    //List<pair<meetingId,List<possibleTime>>
     private List<Pair<Long,List<LocalTime>>> possibleTimeList;
-    private List<LocalTime> possibleTime;
 
     public List<PossibleTime> toEntity(){
         //possibleTime user_id 찾기
@@ -34,18 +34,12 @@ public class PossibleTimeRequest {
                 .flatMap(pair->
                     pair.getSecond().stream().map(possibleTime->{
                     //possibleTime만 추출
-                    MeetingDay meetingDayEntity=meetingDayRepository.findById(pair.getFirst()).get();
-                    //중복된 데이터 검사 -> 이렇게 밖에 못하나?
-                    if(!possibleTimeRepository.existsByUsersAndPossibleTimeAndMeetingDay(userEntity,possibleTime,meetingDayEntity)){
-                        //user와 possibleTime,meetingDay가 중복되지 않을 시 possibleTime entity 생성
                         return PossibleTime.builder()
-                                .users(userEntity)
-                                .meetingDay(meetingDayRepository.findById(pair.getFirst()).get())
-                                .possibleTime(possibleTime)
-                                .build();
-                    }else{
-                        return null;
-                    }
+                            .users(userEntity)
+                            .meetingDay(meetingDayRepository.findById(pair.getFirst()).get())
+                            .possibleTime(possibleTime)
+                            .build();
+
                 })).filter(e->e!=null)
                 .collect(Collectors.toList());
 

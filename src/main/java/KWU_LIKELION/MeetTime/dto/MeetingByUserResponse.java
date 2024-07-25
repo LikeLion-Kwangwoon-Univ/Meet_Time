@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Builder
 @Data
-public class MeetingByUserResponse {
+public class MeetingByUserResponse {//user 관련 meeting 정보 response
 
     private static MeetingDayRepository meetingDayRepository;
     private static PossibleTimeRepository possibleTimeRepository;
@@ -24,6 +24,7 @@ public class MeetingByUserResponse {
 
     private Meeting meeting;
 
+    //List<Pair<meetingDay,List<possibleTime>>
     private List<Pair<MeetingDay,List<LocalTime>>> possibleTimeList; //이게 맞아?
 
 

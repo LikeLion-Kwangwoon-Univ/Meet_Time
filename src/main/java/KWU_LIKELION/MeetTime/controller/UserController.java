@@ -16,10 +16,10 @@ public class UserController {
     private final UserService userService;
     private final MeetingService meetingService;
 
-    //meetingId와 함께 userName,password 전달
+    //username과 password를 통해 user 확인 후 meeting 관련 데이터 전달
     @PostMapping(value = "/{boardId}/login")
     public ResponseEntity<MeetingByUserResponse> login(@RequestBody UsersRequest req){
-        Users user=userService.login(req);
+        Users user=userService.login(req);//user 존재 확인
 
         if(user!=null) {
             //user에 대한 meeting 정보

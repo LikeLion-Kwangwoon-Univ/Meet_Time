@@ -16,8 +16,7 @@ public interface PossibleTimeRepository extends JpaRepository<PossibleTime,Long>
 
     List<PossibleTime> findALlByUsers(Users user);
 
-    List<PossibleTime> findAllByMeetingDay(MeetingDay meetingDay);
-
     @Query("SELECT PT.possibleTime FROM PossibleTime PT WHERE PT.meetingDay=?1")
     List<LocalTime> findAllPossibleTimeByMeetingDay(MeetingDay meetingDay);
+
 }

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
-public class CreateMeetingRequest {
+public class CreateMeetingRequest {//meeting 생성 request
 
     private String meetingTitle;
 
