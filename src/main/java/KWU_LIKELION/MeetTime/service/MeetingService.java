@@ -1,9 +1,7 @@
 package KWU_LIKELION.MeetTime.service;
 
 import KWU_LIKELION.MeetTime.domain.*;
-import KWU_LIKELION.MeetTime.dto.CreateMeetingRequest;
-import KWU_LIKELION.MeetTime.dto.MeetingByUserResponse;
-import KWU_LIKELION.MeetTime.dto.PossibleTimeRequest;
+import KWU_LIKELION.MeetTime.dto.*;
 import KWU_LIKELION.MeetTime.repository.MeetingDayRepository;
 import KWU_LIKELION.MeetTime.repository.MeetingRepository;
 import KWU_LIKELION.MeetTime.repository.PossibleTimeRepository;
@@ -12,8 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class MeetingService {
 
 
     //meeting 생성
-    public Meeting createMeeting(CreateMeetingRequest req)
+    public CreateDayMeetingResponse createDayMeeting(CreateDayMeetingRequest req)
     {
         Pair<Meeting, List<MeetingDay>> saveEntity=req.toEntity();//meetingEntity 생성
         Meeting saveMeeting=saveEntity.getFirst();
@@ -37,8 +37,33 @@ public class MeetingService {
         meetingRepository.save(saveMeeting);
         meetingDayRepository.saveAll(saveMeetingDay);
 
-        return saveMeeting;
+        List<LocalDate> meetingList=saveMeetingDay.stream()
+                .map(meetingDay -> meetingDay.getDay())
+                .collect(Collectors.toList());
+
+        List<Long> meetingDayIdList=meetingDayRepository.findAllMeetingDayIdByMeeting(saveMeeting);
+
+        return CreateDayMeetingResponse.fromEntity(saveMeeting,meetingList,meetingDayIdList);
     }
+
+    public CreateWeekMeetingResponse createWeekMeeting(CreateWeekMeetingRequest req)
+    {
+        Pair<Meeting, List<MeetingDay>> saveEntity=req.toEntity();//meetingEntity 생성
+        Meeting saveMeeting=saveEntity.getFirst();
+        List<MeetingDay> saveMeetingDay=saveEntity.getSecond();
+
+        //Entity 저장
+        meetingRepository.save(saveMeeting);
+        meetingDayRepository.saveAll(saveMeetingDay);
+
+        List<MeetingWeek> meetingList=saveMeetingDay.stream()
+                .map(meetingDay -> meetingDay.getWeek())
+                .collect(Collectors.toList());
+        List<Long> meetingDayIdList=meetingDayRepository.findAllMeetingDayIdByMeeting(saveMeeting);
+
+        return CreateWeekMeetingResponse.fromEntity(saveMeeting,meetingList,meetingDayIdList);
+    }
+
 
     //possibleTime 생성 및 삭제
     public List<PossibleTime> setPossibleTime(PossibleTimeRequest req)
