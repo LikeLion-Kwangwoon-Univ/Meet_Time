@@ -1,10 +1,8 @@
 package KWU_LIKELION.MeetTime.controller;
 
-import KWU_LIKELION.MeetTime.domain.Meeting;
 import KWU_LIKELION.MeetTime.dto.BaseMeetingResponse;
 import KWU_LIKELION.MeetTime.dto.CreateDayMeetingRequest;
 import KWU_LIKELION.MeetTime.dto.CreateWeekMeetingRequest;
-import KWU_LIKELION.MeetTime.dto.PossibleTimeRequest;
 import KWU_LIKELION.MeetTime.service.MeetingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

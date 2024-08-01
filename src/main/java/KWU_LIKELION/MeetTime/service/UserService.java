@@ -22,22 +22,21 @@ public class UserService {
     private final UsersRepository usersRepository;
     private final MeetingRepository meetingRepository;
     private final PossibleTimeRepository possibleTimeRepository;
-    //유저 생성 혹은 로그인
 
+    //유저 생성 혹은 로그인
     @Transactional
     public UsersResponse login(UsersRequest req)
     {
-        String userName=req.getUserName();
-        Meeting meeting=meetingRepository.findById(req.getMeetingId()).get();
-        Optional<Users> optionalUsers=usersRepository.findByUserNameAndMeeting(userName,meeting);//존재하는 아이디인지 확인
+        //존재하는 유저인지 확인
+        Optional<Users> optionalUsers=findUsers(req.getUserName(),req.getMeetingId());
 
         if(optionalUsers.isEmpty())//새로운 유저 생성
         {
-            Users user=usersRepository.save(req.toEntity(meeting));
+            Users user=saveUser(req,req.getMeetingId());
             return UsersResponse.fromEntity(req.getMeetingId(),user);
         }else{//password 확인 혹은 중복 아이디 확인
             Users user=optionalUsers.get();
-            if(!user.getPassword().equals(req.getPassword())){
+            if(!checkPassword(user, req.getPassword())){
                 return null;
             }else{
                 return UsersResponse.fromEntity(req.getMeetingId(),user);
@@ -45,6 +44,28 @@ public class UserService {
         }
 
     }
+
+    //유저 생성
+    @Transactional
+    public Users saveUser(UsersRequest req,Long meetingId){
+        Meeting meeting=meetingRepository.findById(meetingId).
+                orElseThrow();
+        return usersRepository.save(req.toEntity(meeting));
+    }
+
+    //존재하는 유저인지 확인
+    public Optional<Users> findUsers(String userName,Long meetingId)
+    {
+        Meeting meeting=meetingRepository.findById(meetingId)
+                .orElseThrow();
+        return usersRepository.findByUserNameAndMeeting(userName,meeting);//존재하는 아이디인지 확인
+    }
+
+    //비밀번호 확인
+    public Boolean checkPassword(Users user,String password){
+        return user.getPassword().equals(password);
+    }
+
 
     @Transactional(readOnly = true)
     public List<String> getPossibleUserName(MeetingDay meetingDay, Integer possibleTime){

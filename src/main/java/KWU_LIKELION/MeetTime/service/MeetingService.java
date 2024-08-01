@@ -43,6 +43,7 @@ public class MeetingService {
         return BaseMeetingResponse.fromEntity(meeting,meetingDayIdList,meetingList);
     }
 
+
     @Transactional
     public BaseMeetingResponse createWeekMeeting(CreateWeekMeetingRequest req)
     {
