@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -47,5 +48,18 @@ public class Meeting {
         meeting.setMeetingCreateTime(LocalDateTime.now());
 
         return meeting;
+    }
+
+    // Meeting의 가능한 possibleTime 크기
+    public Integer meetingSizePossibleTime( ){
+        Duration duration = Duration.between(getMeetingStartTime(), getMeetingEndTime());
+        long hours = duration.toHours();
+        long minutes = duration.toMinutes() % 60;
+
+        if(minutes != 0){
+            hours++;
+        }
+
+        return (int) hours;
     }
 }

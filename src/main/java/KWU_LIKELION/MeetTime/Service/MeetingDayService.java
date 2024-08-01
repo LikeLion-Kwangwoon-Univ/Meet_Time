@@ -16,12 +16,12 @@ public class MeetingDayService {
     private final MeetingDayRepository meetingDayRepository;
 
     // Meeting에 존재하는 모든 MeetingDay
-    public List<MeetingDay> FindAllMeetingById(Long meetingId){
+    public List<MeetingDay> findAllMeetingById(Long meetingId){
         return meetingDayRepository.findByMeetingId(meetingId);
     }
 
-    // MeetingDayId 찾기
-    public Optional<MeetingDay> FindMeetingDayById(Long meetingDayId){
+    // MeetingDayId로 MeetingDay 찾기
+    public Optional<MeetingDay> findMeetingDayById(Long meetingDayId){
         return meetingDayRepository.findById(meetingDayId);
     }
 }

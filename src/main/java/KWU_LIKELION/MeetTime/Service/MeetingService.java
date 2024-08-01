@@ -3,10 +3,8 @@ package KWU_LIKELION.MeetTime.Service;
 import KWU_LIKELION.MeetTime.Domain.Enum.Week;
 import KWU_LIKELION.MeetTime.Domain.Meeting;
 import KWU_LIKELION.MeetTime.Domain.MeetingDay;
-import KWU_LIKELION.MeetTime.Domain.Users;
 import KWU_LIKELION.MeetTime.Repository.MeetingDayRepository;
 import KWU_LIKELION.MeetTime.Repository.MeetingRepository;
-import KWU_LIKELION.MeetTime.Repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +24,7 @@ import static KWU_LIKELION.MeetTime.Domain.MeetingDay.newWeekMeetingDay;
 public class MeetingService {
     private final MeetingRepository meetingRepository;
     private final MeetingDayRepository meetingDayRepository;
+    private final PossibleTimeService possibleTimeService;
 
     @Transactional
     // Meeting과 날짜를 받아서 생성
@@ -57,8 +56,24 @@ public class MeetingService {
         return newMeeting.getId();
     }
 
-    // Meeting 찾기
-    public Optional<Meeting> FindMeetingById(Long meetingId){
+    // MeetingID로 Meeting 찾기
+    public Optional<Meeting> findMeetingById(Long meetingId){
         return meetingRepository.findById(meetingId);
+    }
+
+    // Meeting 참여
+    public Meeting joinMeetingByCode(String meetingTitle, Long meetingId){
+        Meeting joinMeeting = validateMeetingId(meetingId);
+        if(!joinMeeting.getMeetingTitle().equals(meetingTitle)){
+            throw new IllegalStateException("이름을 확인해주세요");
+        }
+
+        return joinMeeting;
+    }
+
+    public Meeting validateMeetingId(Long meetingId){
+        Optional<Meeting> findMeeting = meetingRepository.findById(meetingId);
+
+        return findMeeting.orElseThrow(() -> new IllegalStateException("# 코드를 확인해주세요"));
     }
 }

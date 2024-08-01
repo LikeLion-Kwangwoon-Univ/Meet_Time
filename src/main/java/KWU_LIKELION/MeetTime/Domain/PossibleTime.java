@@ -12,7 +12,7 @@ public class PossibleTime {
     @Column(name = "possible_time_id")
     private Long id;
 
-    private LocalTime possible;
+    private Integer possible;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_day_id")
@@ -22,9 +22,9 @@ public class PossibleTime {
     @JoinColumn(name = "user_id")
     private Users user;
 
-    public static PossibleTime newPossibleTime(LocalTime time){
+    public static PossibleTime newPossibleTime(Integer possible_num){
         PossibleTime possibleTime = new PossibleTime();
-        possibleTime.setPossible(time);
+        possibleTime.setPossible(possible_num);
 
         return possibleTime;
     }
