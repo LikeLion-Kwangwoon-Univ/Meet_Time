@@ -30,5 +30,5 @@ public class PossibleTime {
 
 
     @Column(nullable = false)
-    private LocalTime possibleTime;
+    private Integer possibleTime;
 }

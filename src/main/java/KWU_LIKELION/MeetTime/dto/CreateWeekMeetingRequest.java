@@ -16,28 +16,30 @@ public class CreateWeekMeetingRequest {
 
     private MeetingType meetingType;
 
-    private List<MeetingWeek> meetingWeekList;
+    private List<MeetingWeek> meetingList;
 
     private LocalTime meetingStartTime;
 
     private LocalTime meetingEndTime;
 
 
-    public Pair<Meeting, List<MeetingDay>> toEntity(){
-        Meeting meeting=Meeting.builder()
+    public Meeting toMeetingEntity(){
+        return Meeting.builder()
                 .meetingTitle(this.meetingTitle)
                 .meetingType(this.meetingType)
                 .meetingStartTime(this.meetingStartTime)
                 .meetingEndTime(this.meetingEndTime)
                 .build();
+    }
 
-        List<MeetingDay> meetingDay=this.meetingWeekList
+
+    public List<MeetingDay> toMeetingWeekEntity(Meeting meeting){
+        return this.meetingList
                 .stream()
                 .map(m->MeetingDay.builder()
                         .week(m)
                         .meeting(meeting)
                         .build())
                 .collect(Collectors.toList());
-        return Pair.of(meeting,meetingDay);
     }
 }

@@ -1,7 +1,6 @@
 package KWU_LIKELION.MeetTime.controller;
 
 import KWU_LIKELION.MeetTime.domain.Users;
-import KWU_LIKELION.MeetTime.dto.MeetingByUserResponse;
 import KWU_LIKELION.MeetTime.dto.UsersRequest;
 import KWU_LIKELION.MeetTime.service.MeetingService;
 import KWU_LIKELION.MeetTime.service.UserService;

@@ -17,30 +17,31 @@ public class CreateDayMeetingRequest {
 
     private MeetingType meetingType;
 
-    private List<LocalDate> meetingDayList;
+    private List<LocalDate> meetingList;
 
     private LocalTime meetingStartTime;
 
     private LocalTime meetingEndTime;
 
 
-    public Pair<Meeting, List<MeetingDay>> toEntity(){
-        Meeting meeting=Meeting.builder()
+    public Meeting toMeetingEntity(){
+        return Meeting.builder()
                 .meetingTitle(this.meetingTitle)
                 .meetingType(this.meetingType)
                 .meetingStartTime(this.meetingStartTime)
                 .meetingEndTime(this.meetingEndTime)
                 .build();
+    }
 
-        List<MeetingDay> meetingDay=this.meetingDayList
+
+    public List<MeetingDay> toMeetingDayEntity(Meeting meeting){
+        return this.meetingList
                 .stream()
                 .map(m->MeetingDay.builder()
                         .day(m)
                         .meeting(meeting)
                         .build())
                 .collect(Collectors.toList());
-        return Pair.of(meeting,meetingDay);
     }
 
 }
-

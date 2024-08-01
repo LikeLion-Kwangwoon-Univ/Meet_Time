@@ -1,5 +1,6 @@
 package KWU_LIKELION.MeetTime.dto;
 
+import KWU_LIKELION.MeetTime.domain.Meeting;
 import KWU_LIKELION.MeetTime.domain.Users;
 import KWU_LIKELION.MeetTime.repository.MeetingRepository;
 import lombok.Builder;
@@ -15,11 +16,11 @@ public class UsersRequest {//로그인 request
     private String password;
 
     private Long meetingId;
-    public Users toEntity(){
+    public Users toEntity(Meeting meeting){
         return Users.builder()
                 .userName(this.userName)
                 .password(this.password)
-                .meeting(meetingRepository.findById(this.meetingId).get())
+                .meeting(meeting)
                 .build();
     }
 
