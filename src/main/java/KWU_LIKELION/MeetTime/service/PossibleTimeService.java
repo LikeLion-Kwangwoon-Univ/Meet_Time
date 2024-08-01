@@ -10,6 +10,7 @@ import KWU_LIKELION.MeetTime.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,6 +27,8 @@ public class PossibleTimeService {
     private final UsersRepository usersRepository;
     private final MeetingDayRepository meetingDayRepository;
     private final MeetingRepository meetingRepository;
+
+    @Transactional(readOnly = true)
     public GetPossibleTimeResponse getPossibleTime(Long meetingId,Long userId){
         Meeting meeting=meetingRepository.findById(meetingId).get();
         Users user=usersRepository.findById(userId).get();
@@ -46,6 +49,7 @@ public class PossibleTimeService {
     }
 
     //get possibleTime count
+    @Transactional(readOnly = true)
     public List<Integer> getPossibleTimeCount(MeetingDay meetingDay){
        return possibleTimeRepository.getPossibletimeCount(meetingDay);
     }

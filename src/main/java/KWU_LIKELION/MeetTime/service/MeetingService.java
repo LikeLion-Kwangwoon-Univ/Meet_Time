@@ -4,8 +4,10 @@ import KWU_LIKELION.MeetTime.domain.*;
 import KWU_LIKELION.MeetTime.dto.*;
 import KWU_LIKELION.MeetTime.repository.MeetingDayRepository;
 import KWU_LIKELION.MeetTime.repository.MeetingRepository;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,6 +24,7 @@ public class MeetingService {
 
 
     //meeting 생성
+    @Transactional
     public BaseMeetingResponse createDayMeeting(CreateDayMeetingRequest req)
     {
         Meeting meeting=req.toMeetingEntity();
@@ -40,6 +43,7 @@ public class MeetingService {
         return BaseMeetingResponse.fromEntity(meeting,meetingDayIdList,meetingList);
     }
 
+    @Transactional
     public BaseMeetingResponse createWeekMeeting(CreateWeekMeetingRequest req)
     {
 

@@ -10,6 +10,7 @@ import KWU_LIKELION.MeetTime.repository.PossibleTimeRepository;
 import KWU_LIKELION.MeetTime.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ShowMeetingService {
     private final MeetingDayService meetingDayService;
     private final UserService userService;

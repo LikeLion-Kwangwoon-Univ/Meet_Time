@@ -6,11 +6,13 @@ import KWU_LIKELION.MeetTime.dto.BaseMeetingResponse;
 import KWU_LIKELION.MeetTime.repository.MeetingDayRepository;
 import KWU_LIKELION.MeetTime.repository.MeetingRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class JoinService{
     private final MeetingRepository meetingRepository;
     private final MeetingDayRepository meetingDayRepository;

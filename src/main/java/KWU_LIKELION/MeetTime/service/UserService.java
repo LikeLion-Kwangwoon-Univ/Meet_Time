@@ -11,6 +11,7 @@ import KWU_LIKELION.MeetTime.repository.PossibleTimeRepository;
 import KWU_LIKELION.MeetTime.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,8 @@ public class UserService {
     private final MeetingRepository meetingRepository;
     private final PossibleTimeRepository possibleTimeRepository;
     //유저 생성 혹은 로그인
+
+    @Transactional
     public UsersResponse login(UsersRequest req)
     {
         String userName=req.getUserName();
@@ -43,10 +46,12 @@ public class UserService {
 
     }
 
+    @Transactional(readOnly = true)
     public List<String> getPossibleUserName(MeetingDay meetingDay, Integer possibleTime){
         return possibleTimeRepository.findAllUserNameByMeetingDayAndPossibletime(meetingDay,possibleTime);
     }
 
+    @Transactional(readOnly = true)
     public List<String> getAllUserName(Meeting meeting){
         return usersRepository.findAllUserNameByMeeting(meeting);
     }

@@ -5,9 +5,11 @@ import KWU_LIKELION.MeetTime.domain.MeetingDay;
 import KWU_LIKELION.MeetTime.domain.MeetingType;
 import KWU_LIKELION.MeetTime.domain.MeetingWeek;
 import KWU_LIKELION.MeetTime.repository.MeetingDayRepository;
+
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +21,7 @@ public class MeetingDayService {
     private final MeetingDayRepository meetingDayRepository;
 
     //meetingList 반환 -> type에 따라 day 혹은 week
+    @Transactional(readOnly = true)
     public List<?> getMeetingList(MeetingType meetingType, List<MeetingDay> meetingDayList){
 
         if(meetingType== MeetingType.DAY){//meetingType이 day라면 day 리스트 반환
@@ -34,6 +37,8 @@ public class MeetingDayService {
         }
 
     }
+
+    @Transactional(readOnly = true)
     public List<Long> getMeetingDayIdList(Meeting meeting){
         return meetingDayRepository.findAllMeetingDayIdByMeeting(meeting);
     }
