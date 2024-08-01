@@ -1,52 +1,44 @@
 package KWU_LIKELION.MeetTime.controller;
 
 import KWU_LIKELION.MeetTime.domain.Meeting;
+import KWU_LIKELION.MeetTime.dto.BaseMeetingResponse;
+import KWU_LIKELION.MeetTime.dto.CreateDayMeetingRequest;
+import KWU_LIKELION.MeetTime.dto.CreateWeekMeetingRequest;
 import KWU_LIKELION.MeetTime.dto.PossibleTimeRequest;
 import KWU_LIKELION.MeetTime.service.MeetingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
+@Controller
+@RequestMapping("/meettime")
 @RequiredArgsConstructor
 public class MeetingController {
 
     private final MeetingService meetingService;
 
-    @PostMapping(value = "/createMeeting")//meeting 생성
-    public ResponseEntity<Long> createMeeting(@RequestBody CreateMeetingRequest req)
+    @PostMapping(value = "/day/create")//meeting 생성
+    public ResponseEntity<BaseMeetingResponse> createDayMeeting(@RequestBody CreateDayMeetingRequest req)
     {
-        Meeting meeting =meetingService.createMeeting(req);
-        if(meeting!=null) {
-            Long meetingId=meeting.getId();//meetingId 반환
-            return ResponseEntity.ok(meetingId);
+        BaseMeetingResponse res =meetingService.createDayMeeting(req);
+        if(res!=null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(res);
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
-    @PostMapping(value = "/selectTime")//가능한 시간 선택
-    public ResponseEntity<String> selectTime(@RequestBody PossibleTimeRequest req){
-        if(meetingService.setPossibleTime(req)!=null) {
-            return ResponseEntity.ok("성공");
+    @PostMapping(value = "/week/create")//meeting 생성
+    public ResponseEntity<BaseMeetingResponse> createMeeting(@RequestBody CreateWeekMeetingRequest req)
+    {
+        BaseMeetingResponse res=meetingService.createWeekMeeting(req);
+        if(res!=null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(res);
         }else{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
-
-    @GetMapping(value = "/{meetingId}")//결과 보여주는 화면(아직 미완성)
-    public ResponseEntity<MeetingResponse> showMeeting(@PathVariable Long meetingId){
-        MeetingResponse meetingResponse=meetingService.showMeeting(meetingId);
-        if(meetingResponse!=null){
-            return ResponseEntity.ok(meetingResponse);
-        }else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-    }
-
-    //showPossiblePerson(to showMeeting)
 }

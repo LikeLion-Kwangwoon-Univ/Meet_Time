@@ -12,6 +12,8 @@ public interface UsersRepository extends JpaRepository<Users,Long> {
 
     Optional<Users> findByUserName(String userName);
 
+    Optional<Users> findByUserNameAndMeeting(String userName,Meeting meeting);
+
     @Query("SELECT Users.userName FROM Users WHERE Users.meeting=?1")
     List<String> findAllUserNameByMeeting(Meeting meeting);
     Boolean existsByUserName(String userName);
