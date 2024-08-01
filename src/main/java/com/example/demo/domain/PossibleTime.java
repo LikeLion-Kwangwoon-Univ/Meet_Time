@@ -1,14 +1,17 @@
 package com.example.demo.domain;
 
-//import javax.persistence.*;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalTime;
 
 @Entity
+@Getter
+@Setter
 public class PossibleTime {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "possible_id")
     private Long id;
 
@@ -21,5 +24,4 @@ public class PossibleTime {
     private MeetingDay meetingDay;
 
     private LocalTime possibleTime;
-
 }

@@ -5,12 +5,8 @@ import java.util.List;
 public interface MeetingDayService {
     MeetingDay saveMeetingDay(MeetingDay meetingDay);
     //새로운 미팅 날짜를 저장
-    MeetingDay updateMeetingDay(MeetingDay meetingDay);
-    //기존 미팅 날짜 정보를 업데이트
-    void deleteMeetingDay(Long id);
-    //특정 미팅 날짜를 삭제
-    MeetingDay getMeetingDayById(Long id);
+    MeetingDay getMeetingDayById(Long meetingDayId);
     //특정 ID를 가진 미팅 날짜를 조회
-    List<MeetingDay> getAllMeetingDays();
-    //모든 미팅 날짜를 조회
+    List<MeetingDay> getAllMeetingDays(Long meetingId);
+    //미팅에 존재하는 모든 날짜를 조회
 }

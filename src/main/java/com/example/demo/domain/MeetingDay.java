@@ -2,11 +2,15 @@ package com.example.demo.domain;
 
 import com.example.demo.domain.enums.MeetingWeek;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-//import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class MeetingDay {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +25,7 @@ public class MeetingDay {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "meeting_id")
     private Meeting meeting;
+
+    @OneToMany(mappedBy = "meetingDay", cascade = CascadeType.ALL)
+    private List<PossibleTime> possibleTimes;
 }

@@ -2,5 +2,11 @@ package com.example.demo.repository;
 
 import com.example.demo.domain.MeetingDay;
 import org.springframework.data.jpa.repository.JpaRepository;
-public interface MeetingDayRepository extends JpaRepository<MeetingDay, Long>{
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface MeetingDayRepository extends JpaRepository<MeetingDay, Long> {
+    List<MeetingDay> findAll(Long meetingId);
 }
