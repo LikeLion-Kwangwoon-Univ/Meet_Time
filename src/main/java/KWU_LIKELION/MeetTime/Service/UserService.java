@@ -32,8 +32,11 @@ public class UserService {
     // Meeting에서 중복된 이름을 가진 사람 확인
     public void validateUserInMeeting(Long meetingId, Users user){
         List<Users> usersInMeeting = usersRepository.findByMeetingId(meetingId);
-        if(!usersInMeeting.isEmpty()){
-            throw new IllegalStateException("회의에서 이미 사용중인 이름입니다.");
+
+        for(Users testUser : usersInMeeting){
+            if(testUser.getNickname().equals(user.getNickname())){
+                throw new IllegalStateException("회의에서 이미 사용중인 이름입니다.");
+            }
         }
     }
 
