@@ -24,6 +24,7 @@ public class PossibleTimeService {
     private final MeetingDayRepository meetingDayRepository;
 
     // User 가능한 모든 시간 저장
+    @Transactional
     public void possibleTimeAdd(Users user, MeetingDay meetingDay, List<Integer> possibleNumList){
         for(Integer possibleNum : possibleNumList){
             PossibleTime possibleTime = newPossibleTime(possibleNum);

@@ -4,6 +4,7 @@ import KWU_LIKELION.MeetTime.Domain.Meeting;
 import KWU_LIKELION.MeetTime.Domain.MeetingDay;
 import KWU_LIKELION.MeetTime.Domain.Users;
 import KWU_LIKELION.MeetTime.Repository.MeetingDayRepository;
+import KWU_LIKELION.MeetTime.Repository.MeetingRepository;
 import KWU_LIKELION.MeetTime.Repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,27 @@ import java.util.Optional;
 public class UserService {
     private final UsersRepository usersRepository;
     private final MeetingDayRepository meetingDayRepository;
+    private final MeetingRepository meetingRepository;
+
+    @Transactional
+    public Long loginUser(Users user, Long meetingId){
+        List<Users> meetingAllUsers = findAllUsersByMeetingId(meetingId);
+        for(Users meetingUser : meetingAllUsers){
+            if(meetingUser.getNickname().equals(user.getNickname())) {
+                if(meetingUser.getPassword().equals(user.getPassword())){
+                    return meetingUser.getId();
+                }
+            }
+        }
+
+        Optional<Meeting> findMeetingById = meetingRepository.findById(meetingId);
+        Meeting meeting = findMeetingById.orElseThrow(() -> new IllegalStateException("존재하지 않는 MeetingID"));
+        return createUser(user, meeting);
+    }
+
 
     // 새로운 user 생성 (Possible Table 생성)
+    @Transactional
     public Long createUser(Users user, Meeting meeting) {
         validateUserInMeeting(meeting.getId(), user);
 
@@ -46,7 +66,7 @@ public class UserService {
     }
 
     // meeting 모든 사용자
-    public List<Users> findUsersByMeetingId(Long meetingId){
+    public List<Users> findAllUsersByMeetingId(Long meetingId){
         return usersRepository.findByMeetingId(meetingId);
     }
 

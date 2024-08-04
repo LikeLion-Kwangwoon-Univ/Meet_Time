@@ -31,7 +31,7 @@ public class Meeting {
     public static Meeting newDayMeeting(String name, Integer start, Integer end){
         Meeting meeting = new Meeting();
         meeting.setMeetingTitle(name);
-        meeting.setMeetingType(mType.DAY);
+        meeting.setMeetingType(mType.D);
         meeting.setMeetingStartTime(start);
         meeting.setMeetingEndTime(end);
         meeting.setMeetingCreateTime(LocalDateTime.now());
@@ -42,7 +42,7 @@ public class Meeting {
     public static Meeting newWeekMeeting(String name, Integer start, Integer end){
         Meeting meeting = new Meeting();
         meeting.setMeetingTitle(name);
-        meeting.setMeetingType(mType.WEEk);
+        meeting.setMeetingType(mType.W);
         meeting.setMeetingStartTime(start);
         meeting.setMeetingEndTime(end);
         meeting.setMeetingCreateTime(LocalDateTime.now());

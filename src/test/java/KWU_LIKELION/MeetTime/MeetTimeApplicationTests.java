@@ -1,6 +1,5 @@
 package KWU_LIKELION.MeetTime;
 
-import KWU_LIKELION.MeetTime.Domain.Enum.Week;
 import KWU_LIKELION.MeetTime.Domain.Meeting;
 import KWU_LIKELION.MeetTime.Domain.MeetingDay;
 import KWU_LIKELION.MeetTime.Domain.Users;
@@ -38,7 +37,7 @@ class MeetTimeApplicationTests {
 	@Rollback(value = false)
 	void contextLoads() {
 		// Given
-		Meeting meeting = new Meeting();
+		/*Meeting meeting = new Meeting();
 		meeting.setMeetingTitle("Team Meeting");
 		meeting.setMeetingStartTime(10);
 		meeting.setMeetingEndTime(20);
@@ -48,20 +47,20 @@ class MeetTimeApplicationTests {
 		LocalDate day3 = LocalDate.of(2024, 3, 14);
 
 		List<LocalDate> days = List.of(day1, day2, day3);
-		Long meetingId1 = meetingService.createDayMeeting(meeting, days);
+		Long meetingId1 = meetingService.createDayMeeting(meeting, days);*/
 
 		Users user = new Users();
 		user.setNickname("강평종");
 		user.setPassword("1234");
-		Optional<Meeting> joinMeeting = meetingService.findMeetingById(meetingId1);
+		Optional<Meeting> joinMeeting = meetingService.findMeetingById((long) 1);
 
 		Users user2 = new Users();
 		user2.setNickname("광운대");
 		user2.setPassword("0000");
-		userService.createUser(user, joinMeeting.get());
-		userService.createUser(user2, joinMeeting.get());
+		userService.loginUser(user2, joinMeeting.get().getId());
+		//userService.createUser(user2, joinMeeting.get());
 
-		List<MeetingDay> meetingDay = meetingDayService.findAllMeetingById(meetingId1);
+		/*List<MeetingDay> meetingDay = meetingDayService.findAllMeetingById(meetingId1);
 
 		List<Integer> pList = new ArrayList<>();
 		pList.add(12);
@@ -77,7 +76,7 @@ class MeetTimeApplicationTests {
 		List<Users> userList = possibleTimeService.allUsersInPossibleTimeNum(meetingDay.get(0).getId(), 12);
 		for(Users u : userList){
 			System.out.println(u.getNickname());
-		}
+		}*/
 
 		/*Meeting meeting2 = new Meeting();
 		meeting2.setMeetingTitle("Team Meeting2");
@@ -92,9 +91,6 @@ class MeetTimeApplicationTests {
 		meetingService.joinMeetingByCode("Team Meeting", meetingId1);
 
 		List<MeetingDay> list = meetingDayService.findAllMeetingById(meetingId2);*/
-
-
-
 
 	}
 

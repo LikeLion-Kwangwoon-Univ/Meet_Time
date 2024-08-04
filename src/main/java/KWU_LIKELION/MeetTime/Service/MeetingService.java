@@ -1,6 +1,5 @@
 package KWU_LIKELION.MeetTime.Service;
 
-import KWU_LIKELION.MeetTime.Domain.Enum.Week;
 import KWU_LIKELION.MeetTime.Domain.Meeting;
 import KWU_LIKELION.MeetTime.Domain.MeetingDay;
 import KWU_LIKELION.MeetTime.Repository.MeetingDayRepository;
@@ -43,12 +42,12 @@ public class MeetingService {
 
     @Transactional
     // Meeting과 요일을 받아서 생성
-    public Long createWeekMeeting(Meeting meeting, List<Week> weeks){
+    public Long createWeekMeeting(Meeting meeting, List<Integer> weeks){
         Meeting newMeeting = newWeekMeeting(meeting.getMeetingTitle(),
                 meeting.getMeetingStartTime(), meeting.getMeetingEndTime());
         meetingRepository.save(newMeeting);
 
-        for(Week week : weeks){
+        for(Integer week : weeks){
             MeetingDay newMeetingDay = newWeekMeetingDay(week, newMeeting);
             meetingDayRepository.save(newMeetingDay);
         }
