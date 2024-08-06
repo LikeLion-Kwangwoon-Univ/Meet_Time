@@ -6,7 +6,7 @@ spring:
     password: somi20010916
   jpa:
     hibernate:
-      ddl-auto:create
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
